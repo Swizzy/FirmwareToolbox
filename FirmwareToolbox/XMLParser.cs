@@ -7,20 +7,18 @@
 
     internal static class XMLParser {
         internal static void ParseVersionListFile(string listfile, List<VersionData> list) {
-            var tmplst = new SortedDictionary<string, VersionData>();
+            list.Clear();
             if(!File.Exists(listfile))
                 throw new FileNotFoundException();
             using (var xml = XmlReader.Create(listfile)) {
                 while (xml.Read())
                 {
-                    if (!xml.IsStartElement())
-                        continue;
                     if(!xml.Name.Equals("entry", StringComparison.CurrentCultureIgnoreCase))
                         continue;
-                    if (!string.IsNullOrEmpty(xml["name"]) && !tmplst.ContainsKey(xml["name"]))
-                        tmplst.Add(xml["name"], new VersionData(xml["name"], xml["hash"], xml["url"], xml["msg"]));
+                    list.Add(new VersionData(xml["name"], xml["hash"], xml["url"], xml["msg"]));
                 }
             }
+            list.Reverse();
         }
 
         internal static void ParseVersionListUrl(string url, List<VersionData> list) {
