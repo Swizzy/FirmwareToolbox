@@ -30,7 +30,7 @@
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkbtn = new System.Windows.Forms.Button();
             this.dwlbtn = new System.Windows.Forms.Button();
@@ -38,10 +38,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.typelist = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.devicelist = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.formatbtn = new System.Windows.Forms.Button();
             this.extractbtn = new System.Windows.Forms.Button();
+            this.formatbtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.devicelist = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -52,7 +52,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.status});
             this.statusStrip1.Location = new System.Drawing.Point(0, 171);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(378, 22);
@@ -66,11 +66,11 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
             this.toolStripStatusLabel1.Text = "Status:";
             // 
-            // toolStripStatusLabel2
+            // status
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(122, 17);
-            this.toolStripStatusLabel2.Text = "Waiting for user input";
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(122, 17);
+            this.status.Text = "Waiting for user input";
             // 
             // groupBox1
             // 
@@ -93,6 +93,7 @@
             this.chkbtn.TabIndex = 2;
             this.chkbtn.Text = "Check It";
             this.chkbtn.UseVisualStyleBackColor = true;
+            this.chkbtn.Click += new System.EventHandler(this.ChkbtnClick);
             // 
             // dwlbtn
             // 
@@ -148,23 +149,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Prepare Memory";
             // 
-            // devicelist
+            // extractbtn
             // 
-            this.devicelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.devicelist.FormattingEnabled = true;
-            this.devicelist.Location = new System.Drawing.Point(56, 19);
-            this.devicelist.Name = "devicelist";
-            this.devicelist.Size = new System.Drawing.Size(120, 21);
-            this.devicelist.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Device:";
+            this.extractbtn.Enabled = false;
+            this.extractbtn.Location = new System.Drawing.Point(6, 46);
+            this.extractbtn.Name = "extractbtn";
+            this.extractbtn.Size = new System.Drawing.Size(170, 23);
+            this.extractbtn.TabIndex = 2;
+            this.extractbtn.Text = "Extract Update";
+            this.extractbtn.UseVisualStyleBackColor = true;
             // 
             // formatbtn
             // 
@@ -176,15 +169,23 @@
             this.formatbtn.Text = "Format Device";
             this.formatbtn.UseVisualStyleBackColor = true;
             // 
-            // extractbtn
+            // label1
             // 
-            this.extractbtn.Enabled = false;
-            this.extractbtn.Location = new System.Drawing.Point(6, 46);
-            this.extractbtn.Name = "extractbtn";
-            this.extractbtn.Size = new System.Drawing.Size(170, 23);
-            this.extractbtn.TabIndex = 2;
-            this.extractbtn.Text = "Extract Update";
-            this.extractbtn.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Device:";
+            // 
+            // devicelist
+            // 
+            this.devicelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.devicelist.FormattingEnabled = true;
+            this.devicelist.Location = new System.Drawing.Point(56, 19);
+            this.devicelist.Name = "devicelist";
+            this.devicelist.Size = new System.Drawing.Size(120, 21);
+            this.devicelist.TabIndex = 0;
             // 
             // Form1
             // 
@@ -213,7 +214,7 @@
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel status;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox versionslist;
         private System.Windows.Forms.Button dwlbtn;
