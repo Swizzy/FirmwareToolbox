@@ -10,6 +10,7 @@
     using System.Windows.Forms;
 
     internal sealed partial class Form1 : Form {
+        private const string BaseListUrl = "http://gxarena.com/list.php/Firmwares/";
         private bool _autoUpdateVersionList;
 
         internal Form1() {
@@ -24,16 +25,18 @@
 
         private void AddTypes() {
             typelist.Items.Clear();
-            typelist.Items.Add(new TypeListItem("PS3 Update", "PS3UPDAT.PUP", "PS3\\UPDATE\\", "http://gxarena.com/Firmwares/PS3/list.php"));
-            typelist.Items.Add(new TypeListItem("PS3 Patch", "PS3PATCH.PUP", "PS3\\UPDATE\\", "http://gxarena.com/Firmwares/PS3/Patch/list.php"));
-            typelist.Items.Add(new TypeListItem("PS4 Update", "PS4UPDAT.PUP", "PS4\\UPDATE\\", "http://gxarena.com/Firmwares/PS4/list.php"));
-            typelist.Items.Add(new TypeListItem("PS4 Recovery", "PS4UPDAT.PUP", "PS4\\UPDATE\\", "http://gxarena.com/Firmwares/PS4/Recovery/list.php"));
-            typelist.Items.Add(new TypeListItem("PSP", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", "http://gxarena.com/Firmwares/PSP/list.php"));
-            typelist.Items.Add(new TypeListItem("PSPGO", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", "http://gxarena.com/Firmwares/PSPGO/list.php"));
-            //typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP" versionListUrl: "http://gxarena.com/Firmwares/PSVITA/list.php"); // No idea? 
-            typelist.Items.Add(new TypeListItem("Xbox 360", fileSystem : "FAT", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : "http://gxarena.com/Firmwares/XBOX360/list.php"));
-            typelist.Items.Add(new TypeListItem("Xbox 360 BETA", fileSystem : "FAT", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : "http://gxarena.com/Firmwares/XBOX360/Beta/list.php"));
-            typelist.Items.Add(new TypeListItem("Xbox One", fileSystem : "NTFS", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : "http://gxarena.com/Firmwares/XBOXONE/list.php"));
+            typelist.Items.Add(new TypeListItem("PS3 Update", "PS3UPDAT.PUP", "PS3\\UPDATE\\", string.Format("{0}PS3", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PS3 Patch", "PS3PATCH.PUP", "PS3\\UPDATE\\", string.Format("{0}PS3/Patch", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PS4 Update", "PS4UPDAT.PUP", "PS4\\UPDATE\\", string.Format("{0}PS4", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PS4 Recovery", "PS4UPDAT.PUP", "PS4\\UPDATE\\", string.Format("{0}PS4/Recovery", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSP", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSP", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSPGO", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSPGO", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita Pre-Install", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA/PRE", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita System Data", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA/SYS", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox 360", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox 360 BETA", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360/Beta", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox One", fileSystem: "NTFS", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOXONE", BaseListUrl)));
             typelist.SelectedIndex = 0;
         }
 
