@@ -31,9 +31,9 @@
             typelist.Items.Add(new TypeListItem("PS4 Recovery", "PS4UPDAT.PUP", "PS4\\UPDATE\\", string.Format("{0}PS4/Recovery", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("PSP", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSP", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("PSPGO", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSPGO", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita Pre-Install", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA/PRE", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita System Data", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSPVITA/SYS", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita Pre-Install", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA/PRE", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita System Data", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA/SYS", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("Xbox 360", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("Xbox 360 BETA", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360/Beta", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("Xbox One", fileSystem: "NTFS", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOXONE", BaseListUrl)));
