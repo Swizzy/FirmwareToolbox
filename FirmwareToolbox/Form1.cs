@@ -11,16 +11,18 @@
 
     internal sealed partial class Form1 : Form {
         private const string BaseListUrl = "http://gxarena.com/list.php/Firmwares/";
-        private bool _autoUpdateVersionList;
+        private readonly WebClient _wc = new WebClient();
+        private bool UpdatingList;
 
         internal Form1() {
             InitializeComponent();
-            _autoUpdateVersionList = true;
             var ver = Assembly.GetAssembly(typeof(Form1)).GetName().Version;
             var name = Assembly.GetAssembly(typeof(Form1)).GetName().Name;
             Text = string.Format("{0} v{1}.{2}", name, ver.Major, ver.Minor);
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetAssembly(typeof(Form1)).Location);
             AddTypes();
+            _wc.DownloadFileCompleted += WcOnDownloadFileCompleted;
+            _wc.DownloadProgressChanged += WcDownloadProgressChanged;
         }
 
         private void AddTypes() {
@@ -31,12 +33,12 @@
             typelist.Items.Add(new TypeListItem("PS4 Recovery", "PS4UPDAT.PUP", "PS4\\UPDATE\\", string.Format("{0}PS4/Recovery", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("PSP", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSP", BaseListUrl)));
             typelist.Items.Add(new TypeListItem("PSPGO", "EBOOT.PBP", "PSP\\Game\\UPDATE\\", string.Format("{0}PSPGO", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita Pre-Install", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA/PRE", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("PSVita System Data", "PSP2UPDAT.PUP", versionListUrl: string.Format("{0}PSVITA/SYS", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("Xbox 360", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("Xbox 360 BETA", fileSystem: "FAT", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOX360/Beta", BaseListUrl)));
-            typelist.Items.Add(new TypeListItem("Xbox One", fileSystem: "NTFS", dlType: TypeListItem.DownloadTypes.Zip, versionListUrl: string.Format("{0}XBOXONE", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita", "PSP2UPDAT.PUP", versionListUrl : string.Format("{0}PSVITA", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita Pre-Install", "PSP2UPDAT.PUP", versionListUrl : string.Format("{0}PSVITA/PRE", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("PSVita System Data", "PSP2UPDAT.PUP", versionListUrl : string.Format("{0}PSVITA/SYS", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox 360", fileSystem : "FAT", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : string.Format("{0}XBOX360", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox 360 BETA", fileSystem : "FAT", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : string.Format("{0}XBOX360/Beta", BaseListUrl)));
+            typelist.Items.Add(new TypeListItem("Xbox One", fileSystem : "NTFS", dlType : TypeListItem.DownloadTypes.Zip, versionListUrl : string.Format("{0}XBOXONE", BaseListUrl)));
             typelist.SelectedIndex = 0;
         }
 
@@ -56,12 +58,19 @@
         }
 
         private void DownloadNewVersionList(bool manualUpdate = false) {
+            if(!UpdatingList)
+                UpdatingList = true;
             var itm = typelist.SelectedItem as TypeListItem;
             if(itm == null)
                 return; //Dafuq?!
+            if (UpdatingList && manualUpdate)
+            {
+                if (itm.LastUpdate.Subtract(DateTime.Now).Days < 1)
+                    return; // Why update so often?!
+            }
             var path = string.Format("{0}\\Swizzy\\FWToolbox\\lists\\{1}.xml", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), itm.Display);
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            if(manualUpdate || _autoUpdateVersionList || !File.Exists(path)) {
+            if(manualUpdate || !File.Exists(path)) {
                 if(File.Exists(path))
                     File.Delete(path);
                 var wc = new WebClient();
@@ -70,6 +79,7 @@
             if(!File.Exists(path))
                 throw new Exception("Something went horribly wrong!!");
             XMLParser.ParseVersionListFile(path, itm.VersionsList);
+            itm.LastUpdate = DateTime.Now;
         }
 
         private void DwlbtnClick(object sender, EventArgs e) {
@@ -87,10 +97,7 @@
                 return;
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             SetState(false);
-            var wc = new WebClient();
-            wc.DownloadFileCompleted += WcOnDownloadFileCompleted;
-            wc.DownloadProgressChanged += WcDownloadProgressChanged;
-            wc.DownloadFileAsync(new Uri(vd.Url), path);
+            _wc.DownloadFileAsync(new Uri(vd.Url), path);
         }
 
         private void WcDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) { status.Text = string.Format("Downloading... {0} of {1} Bytes done! ({2}%)", e.BytesReceived, e.TotalBytesToReceive, e.ProgressPercentage); }
@@ -113,6 +120,8 @@
                 dwlbtn.Enabled = false;
                 chkbtn.Enabled = false;
             }
+            dwlbtn.Visible = state;
+            abortbtn.Visible = !state;
         }
 
         private void WcOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs asyncCompletedEventArgs) { SetState(true); }
@@ -163,12 +172,23 @@
             var actual = ArrayToHex(md5.ComputeHash(fs));
             fs.Close();
             if(!expected.Equals(actual, StringComparison.CurrentCultureIgnoreCase)) {
-                if (MessageBox.Show(string.Format("The hashes don't match!\r\nExpected:\r\n{0}\r\nActual:\r\n{1}\r\n\r\nDo you wish to delete the faulty file?", expected.ToUpper(), actual), "WARNING: Files don't match!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if(MessageBox.Show(string.Format("The hashes don't match!\r\nExpected:\r\n{0}\r\nActual:\r\n{1}\r\n\r\nDo you wish to delete the faulty file?", expected.ToUpper(), actual), "WARNING: Files don't match!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
                     File.Delete(path);
                 return;
             }
             MessageBox.Show("Hashes are a match!");
+        }
 
+        private void AbortbtnClick(object sender, EventArgs e) {
+            if(_wc.IsBusy)
+                _wc.CancelAsync();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if(keyData != Keys.F5)
+                return base.ProcessCmdKey(ref msg, keyData);
+            DownloadNewVersionList(true);
+            return true;
         }
     }
 }

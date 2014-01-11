@@ -32,16 +32,16 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.abortbtn = new System.Windows.Forms.Button();
             this.chkbtn = new System.Windows.Forms.Button();
             this.dwlbtn = new System.Windows.Forms.Button();
             this.versionslist = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.typelist = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.extractbtn = new System.Windows.Forms.Button();
-            this.formatbtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.devicelist = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.loadpluginbtn = new System.Windows.Forms.Button();
+            this.pluginlist = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -74,6 +74,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.abortbtn);
             this.groupBox1.Controls.Add(this.chkbtn);
             this.groupBox1.Controls.Add(this.dwlbtn);
             this.groupBox1.Controls.Add(this.versionslist);
@@ -83,6 +84,18 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Download";
+            // 
+            // abortbtn
+            // 
+            this.abortbtn.Enabled = false;
+            this.abortbtn.Location = new System.Drawing.Point(6, 46);
+            this.abortbtn.Name = "abortbtn";
+            this.abortbtn.Size = new System.Drawing.Size(154, 23);
+            this.abortbtn.TabIndex = 3;
+            this.abortbtn.Text = "Abort Download";
+            this.abortbtn.UseVisualStyleBackColor = true;
+            this.abortbtn.Visible = false;
+            this.abortbtn.Click += new System.EventHandler(this.AbortbtnClick);
             // 
             // chkbtn
             // 
@@ -121,7 +134,7 @@
             this.groupBox2.Controls.Add(this.typelist);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(166, 46);
+            this.groupBox2.Size = new System.Drawing.Size(354, 46);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Type/Console";
@@ -132,60 +145,50 @@
             this.typelist.FormattingEnabled = true;
             this.typelist.Location = new System.Drawing.Point(6, 19);
             this.typelist.Name = "typelist";
-            this.typelist.Size = new System.Drawing.Size(154, 21);
+            this.typelist.Size = new System.Drawing.Size(342, 21);
             this.typelist.TabIndex = 0;
             this.typelist.SelectedIndexChanged += new System.EventHandler(this.TypelistSelectedIndexChanged);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.extractbtn);
-            this.groupBox3.Controls.Add(this.formatbtn);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.devicelist);
-            this.groupBox3.Location = new System.Drawing.Point(184, 12);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.loadpluginbtn);
+            this.groupBox3.Controls.Add(this.pluginlist);
+            this.groupBox3.Enabled = false;
+            this.groupBox3.Location = new System.Drawing.Point(184, 64);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(182, 156);
-            this.groupBox3.TabIndex = 4;
+            this.groupBox3.Size = new System.Drawing.Size(182, 104);
+            this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Prepare Memory";
+            this.groupBox3.Text = "Plugins";
             // 
-            // extractbtn
+            // button1
             // 
-            this.extractbtn.Enabled = false;
-            this.extractbtn.Location = new System.Drawing.Point(6, 46);
-            this.extractbtn.Name = "extractbtn";
-            this.extractbtn.Size = new System.Drawing.Size(170, 23);
-            this.extractbtn.TabIndex = 2;
-            this.extractbtn.Text = "Extract Update";
-            this.extractbtn.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(6, 75);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(170, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Download Plugins";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // formatbtn
+            // loadpluginbtn
             // 
-            this.formatbtn.Enabled = false;
-            this.formatbtn.Location = new System.Drawing.Point(6, 127);
-            this.formatbtn.Name = "formatbtn";
-            this.formatbtn.Size = new System.Drawing.Size(170, 23);
-            this.formatbtn.TabIndex = 2;
-            this.formatbtn.Text = "Format Device";
-            this.formatbtn.UseVisualStyleBackColor = true;
+            this.loadpluginbtn.Enabled = false;
+            this.loadpluginbtn.Location = new System.Drawing.Point(6, 46);
+            this.loadpluginbtn.Name = "loadpluginbtn";
+            this.loadpluginbtn.Size = new System.Drawing.Size(170, 23);
+            this.loadpluginbtn.TabIndex = 1;
+            this.loadpluginbtn.Text = "Load selected plugin";
+            this.loadpluginbtn.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // pluginlist
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Device:";
-            // 
-            // devicelist
-            // 
-            this.devicelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.devicelist.FormattingEnabled = true;
-            this.devicelist.Location = new System.Drawing.Point(56, 19);
-            this.devicelist.Name = "devicelist";
-            this.devicelist.Size = new System.Drawing.Size(120, 21);
-            this.devicelist.TabIndex = 0;
+            this.pluginlist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.pluginlist.FormattingEnabled = true;
+            this.pluginlist.Location = new System.Drawing.Point(6, 19);
+            this.pluginlist.Name = "pluginlist";
+            this.pluginlist.Size = new System.Drawing.Size(170, 21);
+            this.pluginlist.TabIndex = 0;
             // 
             // Form1
             // 
@@ -204,7 +207,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,10 +224,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox typelist;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox devicelist;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button formatbtn;
-        private System.Windows.Forms.Button extractbtn;
+        private System.Windows.Forms.ComboBox pluginlist;
+        private System.Windows.Forms.Button loadpluginbtn;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button abortbtn;
 
     }
 }
