@@ -27,7 +27,7 @@ foreach($ffs as $ff){
     else {
         $hash = md5_file($dir.$ff);
         $entry->addAttribute('hash', $hash);
-        file_put_contents($file.'.hash', $hash);
+        file_put_contents($dir.$file.'.hash', $hash);
     }            
     $entry->addAttribute('url',$site.$ff);
     if (file_exists($dir.$file.'.msg'))
