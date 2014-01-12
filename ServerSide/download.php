@@ -29,6 +29,6 @@ if (file_exists($file)) {
     $downCount = 1;
     if (file_exists($cntfile))
         $downCount += intval(file_get_contents($cntfile));        
-    file_put_contents($file ,$downCount);
+    file_put_contents($cntfile ,$downCount);
 }
 ?>
