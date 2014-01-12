@@ -1,6 +1,5 @@
 <?php
 $data = file_get_contents('http://fus01.ps3.update.playstation.net/update/ps3/list/us/ps3-updatelist.txt');
-//echo $data;
 foreach (explode(PHP_EOL, $data) as $line) {
     $ispatch = 0;
     $ver = "";
