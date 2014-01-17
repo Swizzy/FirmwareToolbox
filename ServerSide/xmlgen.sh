@@ -33,5 +33,5 @@ for scandir in ${scandirs[*]} ; do
             fi
         fi
     done
-    echo "</xml>" >> $scandir/list.xml
+	printf "\t<generated timestamp=\"$(date +%s)\"/>\r\n</xml>" >> $scandir/list.xml
 done
