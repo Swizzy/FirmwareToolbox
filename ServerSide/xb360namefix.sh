@@ -1,7 +1,7 @@
 #!/bin/bash
 cd /homez.755/gxarena/www/Firmwares
 #code goes below this line...
-scandirs=("XBOX360" "XBOX360/Beta");
+scandirs=("XBOX360" "XBOX360/Beta" "XBOX360/SUFiles" "XBOX360/SUFiles/Beta");
 for scandir in ${scandirs[*]} ; do
     for file in $scandir/* ; do
         if [[ -f $file ]]

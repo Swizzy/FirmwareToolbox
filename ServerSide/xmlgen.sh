@@ -5,7 +5,7 @@ baseurl=http://gxarena.com/download.php
 
 #scandir=www-data
 #scandir="Firmwares/PS3/Patch"
-scandirs=("Firmwares/PS3" "Firmwares/PS3/Patch" "Firmwares/PS4" "Firmwares/PS4/Recovery" "Firmwares/PSP" "Firmwares/PSPGO" "Firmwares/PSVITA" "Firmwares/PSVITA/PRE" "Firmwares/PSVITA/SYS" "Firmwares/XBOX360" "Firmwares/XBOX360/Beta" "Firmwares/XBOXONE");
+scandirs=("Firmwares/PS3" "Firmwares/PS3/Patch" "Firmwares/PS4" "Firmwares/PS4/Recovery" "Firmwares/PSP" "Firmwares/PSPGO" "Firmwares/PSVITA" "Firmwares/PSVITA/PRE" "Firmwares/PSVITA/SYS" "Firmwares/XBOX360" "Firmwares/XBOX360/Beta" "Firmwares/XBOX360/SUFiles" "Firmwares/XBOX360/SUFiles/Beta" "Firmwares/XBOXONE");
 for scandir in ${scandirs[*]} ; do
     if [[ -f $scandir/list.xml ]] ; then
         rm $scandir/list.xml
