@@ -29,7 +29,12 @@ for scandir in ${scandirs[*]} ; do
                 if [[ -f $path/$fname.msg ]] ; then
                     msg=$(cat $path/$fname.msg)
                 fi
-                printf "\t<entry name=\"$name\" hash=\"$(cat $path/$fname.hash)\" url=\"$baseurl/$scandir/$fname.$ext\" msg=\"$msg\"/>\r\n" >> $scandir/list.xml
+				if [[ -f $path/$fname.count ]] ; then
+					dlcount=$(cat $path/$fname.count)
+				else
+					dlcount=0
+				fi
+                printf "\t<entry name=\"$name\" hash=\"$(cat $path/$fname.hash)\" url=\"$baseurl/$scandir/$fname.$ext\" msg=\"$msg\" dlcount=\"$dlcount\"/>\r\n" >> $scandir/list.xml
             fi
         fi
     done
