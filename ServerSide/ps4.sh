@@ -95,8 +95,10 @@ printf "reclabel: $reclabel\r\nrecversion: $recversion\r\nrecsize: $recsize\r\nr
 
 checkupdate $basedir/PS4/Recovery $recversion $recurl $rechash $reclabel $recsize
 
+upddata=$(printf "syslabel: $syslabel\r\nsysversion: $sysversion\r\nsyssize: $syssize\r\nsysurl: $sysurl\r\nsyshash: $syshash\r\nreclabel: $reclabel\r\nrecversion: $recversion\r\nrecsize: $recsize\r\nrecurl: $recurl\r\nrechash: $rechash\r\n\r\n$xmldata")
+
 if [[ $updatefound == 1 ]] ; then
-	$(printf "syslabel: $syslabel\r\nsysversion: $sysversion\r\nsyssize: $syssize\r\nsysurl: $sysurl\r\nsyshash: $syshash\r\nreclabel: $reclabel\r\nrecversion: $recversion\r\nrecsize: $recsize\r\nrecurl: $recurl\r\nrechash: $rechash" | mutt -s "PS4 Update found & Downloaded to GXArena!" $email)
+	$(echo -e "$upddata" | mutt -s "PS4 Update found & Downloaded to GXArena!" $email)
 else
-	$(printf "syslabel: $syslabel\r\nsysversion: $sysversion\r\nsyssize: $syssize\r\nsysurl: $sysurl\r\nsyshash: $syshash\r\nreclabel: $reclabel\r\nrecversion: $recversion\r\nrecsize: $recsize\r\nrecurl: $recurl\r\nrechash: $rechash" | mutt -s "PS4 Update check completed on GXArena!" $email)
+	$(echo -e "$upddata" | mutt -s "PS4 Update check completed on GXArena!" $email)
 fi
