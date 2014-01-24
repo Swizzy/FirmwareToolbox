@@ -11,7 +11,7 @@ for scandir in ${scandirs[*]} ; do
         rm $scandir/list.xml
     fi
     printf "<?xml version=\"1.0\"?>\r\n<xml>\r\n" >> $scandir/list.xml
-    for file in $scandir/* ; do
+    for file in $(ls $scandir/* | sort -r) ; do
         if [[ -f $file ]]
             then if [[ $file != *.hash ]] && [[ $file != *.name ]] && [[ $file != *.msg ]] && [[ $file != *.count ]] && [[ $file != *.xml ]] && [[ $file != *.php ]] ; then
                 path=${file%/*}

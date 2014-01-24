@@ -11,7 +11,7 @@ for scandir in ${scandirs[*]} ; do
     if [[ -f $scandir/table.xml ]] ; then
         rm $scandir/table.xml
     fi
-    for file in $scandir/* ; do
+    for file in $(ls $scandir/* | sort -r) ; do
         if [[ -f $file ]]
             then if [[ $file != *.hash ]] && [[ $file != *.name ]] && [[ $file != *.msg ]] && [[ $file != *.count ]] && [[ $file != *.xml ]] && [[ $file != *.php ]] ; then
                 path=${file%/*}
