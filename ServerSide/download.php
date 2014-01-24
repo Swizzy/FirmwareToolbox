@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 function readfile_chunked ($fname) {
     $chunksize = 1*(1024*1024); // how many bytes per chunk 
     $buffer = ''; 
