@@ -50,7 +50,7 @@ function checkupdate() {
 		local curr=$(cat $1/$2.hash)
 		if [[ $hash != $curr ]] ; then
 			getpup $url $hash $version"_2.PUP" 0 $size TRUE
-			if [[ -f $bdir/$version"_2.name" ]] ; then
+			if [[ -f $dir/$version"_2.name" ]] ; then
 				rm $dir/$version"_2.name"
 			fi
 			printf "$label v2" >> $dir/$version"_2.name"
