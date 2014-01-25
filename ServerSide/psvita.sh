@@ -19,7 +19,7 @@ function getpup() {
 	if [[ $4 < 10 ]] ; then
 		if [[ -f tmp.dl && $6 == TRUE ]] ; then
 			rm tmp.dl
-		elif [[ $5 < $(stat -c%s 'tmp.dl') ]] ; then
+		elif [[ -f 'tmp.dl' && $5 < $(stat -c%s 'tmp.dl') ]] ; then
 			rm tmp.dl
 		fi
 		wget -cO tmp.dl $1
@@ -50,7 +50,7 @@ function checkupdate() {
 		local curr=$(cat $1/$2.hash)
 		if [[ $hash != $curr ]] ; then
 			getpup $url $hash $version"_2.PUP" 0 $size TRUE
-			if [[ -f $bdir/$version"_2.name" ]] ; then
+			if [[ -f $dir/$version"_2.name" ]] ; then
 				rm $dir/$version"_2.name"
 			fi
 			printf "$label v2" >> $dir/$version"_2.name"
@@ -67,7 +67,7 @@ function checkupdate() {
 }
 
 ## These are for ALL of them
-label=$(echo -e "$xmldata" | grep '\<version' | grep 'label=' | sed s/'"'/'\n'/g | head -2 | tail -1)
+label=$(echo -e "$xmldata" | grep '\<version' | grep 'label=' | sed s/'"'/'\n'/g | head -4 | tail -1)
 version=$(echo -e "$xmldata" | grep '\<version' | grep 'system_version=' | sed s/'"'/'\n'/g | head -2 | tail -1)
 ##
 
@@ -79,13 +79,13 @@ urlsize=$(getsize $updurl)
 if [[ $updsize != $urlsize ]] ; then
 	updsize=$urlsize
 fi
-printf "label: $label\r\nversion: $version\r\nupdsize: $updsize\r\nupdurl: $updurl\r\nupdhash: $updhash\r\n"
+printf "label: $label\r\nversion: $version\r\n\r\nupdsize: $updsize\r\nupdurl: $updurl\r\nupdhash: $updhash\r\n"
 checkupdate $basedir/PSVita $version $updurl $updhash $label $updsize
 ##
 
 ##these are for the system data
-syssize=$(echo -e "$xmldata" | grep \<recovery \spkg_type -A4 | grep 'systemdata' -A4 | grep \<image\ spkg_version | head -1 | sed s/'"'/'\n'/g | head -4 | tail -1)
-sysurl=$(echo -e "$xmldata" | grep \<recovery \spkg_type -A4 | grep 'systemdata' -A4 | grep \<image\ spkg_version | head -1 | sed s/'">'/'\n'/g | head -2 | tail -1 | sed s/'?'/'\n'/g | head -1)
+syssize=$(echo -e "$xmldata" | grep \<recovery\ spkg_type -A4 | grep 'systemdata' -A4 | grep \<image\ spkg_version | head -1 | sed s/'"'/'\n'/g | head -4 | tail -1)
+sysurl=$(echo -e "$xmldata" | grep \<recovery\ spkg_type -A4 | grep 'systemdata' -A4 | grep \<image\ spkg_version | head -1 | sed s/'">'/'\n'/g | head -2 | tail -1 | sed s/'?'/'\n'/g | head -1)
 syshash=$(geturlhash $sysurl)
 urlsize=$(getsize $sysurl)
 if [[ $syssize != $urlsize ]] ; then
@@ -96,8 +96,8 @@ checkupdate $basedir/PSVita/SYS $version $sysurl $syshash $label $syssize
 ##
 
 ##these are for the pre-install
-presize=$(echo -e "$xmldata" | grep \<recovery \spkg_type -A4 | grep 'preinst' -A4 | grep \<image\ spkg_version | sed s/'"'/'\n'/g | head -4 | tail -1)
-preurl=$(echo -e "$xmldata" | grep \<recovery \spkg_type -A4 | grep 'preinst' -A4 | grep \<image\ spkg_version | sed s/'">'/'\n'/g | head -2 | tail -1 | sed s/'?'/'\n'/g | head -1)
+presize=$(echo -e "$xmldata" | grep \<recovery\ spkg_type -A4 | grep 'preinst' -A4 | grep \<image\ spkg_version | sed s/'"'/'\n'/g | head -4 | tail -1)
+preurl=$(echo -e "$xmldata" | grep \<recovery\ spkg_type -A4 | grep 'preinst' -A4 | grep \<image\ spkg_version | sed s/'">'/'\n'/g | head -2 | tail -1 | sed s/'?'/'\n'/g | head -1)
 prehash=$(geturlhash $preurl)
 urlsize=$(getsize $preurl)
 if [[ $presize != $urlsize ]] ; then
@@ -107,10 +107,15 @@ printf "presize: $presize\r\npreurl: $preurl\r\nprehash: $prehash\r\n"
 checkupdate $basedir/PSVita/PRE $version $preurl $prehash $label $presize
 ##
 
-upddata=$(printf "updlabel: $updlabel\r\nupdversion: $updversion\r\nupdsize: $updsize\r\nsysurl: $updurl\r\nsyshash: $updhash\r\nsyssize: $syssize\r\nsysurl: $sysurl\r\nsyshash: $syshash\r\npresize: $presize\r\npreurl: $preurl\r\nprehash: $prehash\r\n\r\n$xmldata")
+upddata=$(printf "label: $label\r\nversion: $version\r\n\r\nupdsize: $updsize\r\nupdurl: $updurl\r\nupdhash: $updhash\r\nsyssize: $syssize\r\nsysurl: $sysurl\r\nsyshash: $syshash\r\npresize: $presize\r\npreurl: $preurl\r\nprehash: $prehash\r\n\r\n$xmldata")
 
 if [[ $updatefound == 1 ]] ; then
 	$(echo -e "$upddata" | mutt -s "PSVita Update found & Downloaded to GXArena!" $email)
+	if [[ ! -f $basedir/PSVita/XML/$version.xml ]] ; then
+		echo -e "$xmldata" >> $basedir/PSVita/XML/$version.xml
+	else
+		echo -e "$xmldata" >> $basedir/PSVita/XML/$version"_2.xml"
+	fi
 else
 	$(echo -e "$upddata" | mutt -s "PSVita Update check completed on GXArena!" $email)
 fi
