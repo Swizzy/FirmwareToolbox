@@ -1,0 +1,17 @@
+Firmwares/PS3
+Firmwares/PS3/Patch
+Firmwares/PS4
+Firmwares/PS4/Recovery
+Firmwares/PSP
+Firmwares/PSPGo
+Firmwares/PSVita
+Firmwares/PSVita/PRE
+Firmwares/PSVita/SYS
+Firmwares/Xbox360
+Firmwares/Xbox360/Beta
+Firmwares/Xbox360/SUFiles
+Firmwares/Xbox360/SUFiles/Beta
+Firmwares/XboxOne
+Firmwares/Tools
+Firmwares/Tools/FWToolbox/
+Firmwares/Tools/FWToolbox/Plugins
